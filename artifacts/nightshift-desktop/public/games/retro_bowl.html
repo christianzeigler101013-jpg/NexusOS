@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <base href="https://cdn.jsdelivr.net/gh/wnasmile/LAMAR@main/retro-bowl/">
+    <title>Retro Bowl</title>
+    <style>
+      html, body {
+        width: 100%;
+        height: 100%;
+        background: #000;
+        color: #ccc;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        overflow: hidden;
+      }
+      .gm4html5_div_class { margin: 0; padding: 0; border: 0; }
+      canvas {
+        image-rendering: optimizeSpeed;
+        -webkit-interpolation-mode: nearest-neighbor;
+        -ms-touch-action: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+      :-webkit-full-screen #canvas,
+      :-webkit-full-screen {
+        width: 100%;
+        height: 100%;
+      }
+      .gm4html5_login {
+        padding: 20px;
+        position: absolute;
+        border: 2px solid #000;
+        background: #404040;
+        color: #00ff00;
+        border-radius: 15px;
+        box-shadow: #101010 20px 20px 40px;
+      }
+      .gm4html5_cancel_button { float: right; }
+      .gm4html5_login_button { float: left; }
+      .gm4html5_login_header { text-align: center; }
+    </style>
+  </head>
+  <body>
+    <div class="gm4html5_div_class" id="gm4html5_div_id">
+      <img src="html5game/splash.png" id="GM4HTML5_loadingscreen" alt="Retro Bowl loading screen" style="display:none">
+      <canvas id="canvas" width="960" height="540">
+        <p>Your browser does not support HTML5 canvas.</p>
+      </canvas>
+    </div>
+    <script src="html5game/RetroBowl.js?WAEAC=1633155445"></script>
+    <script>
+      window.addEventListener('load', function () {
+        if (typeof GameMaker_Init === 'function') GameMaker_Init();
+      });
+    </script>
+  </body>
+</html>

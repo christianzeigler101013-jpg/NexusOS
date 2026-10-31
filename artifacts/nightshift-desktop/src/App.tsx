@@ -36,7 +36,7 @@ const defaultPreferences: Preferences = {
 const defaultGames: Game[] = [
   { id: 'bad-parenting', title: 'Bad Parenting', category: 'Horror', subtitle: 'A strange little nightmare', cover: 'parenting' },
   { id: 'bendy', title: 'Bendy and the Ink Machine', category: 'Adventure', subtitle: 'The studio is waiting', cover: 'ink' },
-  { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Licensed browser version on Poki', cover: 'retro', externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
+  { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Embedded HTML game wrapper · external assets required', cover: 'retro', builtInUrl: '/games/retro_bowl.html', externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
   { id: 'basketball-stars', title: 'Basketball Stars', category: 'Sports', subtitle: 'Included HTML launcher · internet required', cover: 'basketball', builtInUrl: '/games/basketball_stars.html' },
 ];
 const prefKey = 'nightshift.preferences.v1';
