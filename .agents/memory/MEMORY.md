@@ -1,0 +1,1 @@
+- [Retro Bowl game sourcing](retro-bowl-game-sourcing.md) — use the licensed Poki page as a top-level launch; its CSP blocks embedding elsewhere.

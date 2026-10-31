@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Nightshift Desktop"
+description = "A browser-based gaming desktop with floating apps, a configurable game library, and persistent system settings."
+version = "1.0.0"
+id = "artifacts/nightshift-desktop"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22654
+
+[services.development]
+run = "pnpm --filter @workspace/nightshift-desktop run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nightshift-desktop", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/nightshift-desktop/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22654"
+BASE_PATH = "/"
