@@ -82,6 +82,8 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .cover-ink::after { background:repeating-linear-gradient(174deg,transparent 0 15px,rgba(211,177,105,.04) 16px 17px),linear-gradient(0deg,rgba(5,7,8,.92),transparent 78%); }
 .cover-retro::before { background:linear-gradient(145deg,#183f42,#39766d 50%,#122527); }
 .cover-retro::after { background:linear-gradient(0deg,rgba(4,10,10,.88),transparent 75%); }
+.cover-basketball::before { background:radial-gradient(circle at 76% 28%,rgba(255,202,126,.34),transparent 23%),linear-gradient(145deg,#25160f,#a45126 48%,#32180f); }
+.cover-basketball::after { background:repeating-linear-gradient(25deg,transparent 0 18px,rgba(255,239,211,.09) 19px 20px),linear-gradient(0deg,rgba(4,10,10,.9),transparent 76%); }
 .cover-ghost { position:absolute; inset:10% 30% 15%; border:1px solid rgba(245,220,176,.22); border-radius:50% 50% 44% 44%; filter:drop-shadow(0 0 25px rgba(200,155,92,.25)); transform:scaleX(.72); }
 .cover-ghost:after { content:''; position:absolute; left:35%; right:35%; top:42%; height:4px; background:rgba(236,206,154,.5); box-shadow:0 12px 0 rgba(236,206,154,.3); }
 .cover-orbit { position:absolute; width:165px;height:165px; right:17%;top:-4%; border:1px solid rgba(202,215,168,.24); border-radius:50%; transform:rotate(-28deg) scaleY(.3); box-shadow:0 0 25px rgba(194,165,95,.14); }

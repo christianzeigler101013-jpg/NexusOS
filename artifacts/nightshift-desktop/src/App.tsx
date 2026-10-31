@@ -4,7 +4,7 @@ import {
 } from 'lucide-react';
 
 type AppId = 'steam' | 'archive' | 'settings';
-type Game = { id: string; title: string; category: string; subtitle: string; cover: 'parenting' | 'ink' | 'retro' | 'custom'; externalLaunchUrl?: string };
+type Game = { id: string; title: string; category: string; subtitle: string; cover: 'parenting' | 'ink' | 'retro' | 'basketball' | 'custom'; externalLaunchUrl?: string; builtInUrl?: string };
 type AppWindow = { open: boolean; minimized: boolean; z: number; x?: number; y?: number; closing?: boolean };
 type Source = { url?: string; fileUrl?: string; fileName?: string };
 type Preferences = {
@@ -37,6 +37,7 @@ const defaultGames: Game[] = [
   { id: 'bad-parenting', title: 'Bad Parenting', category: 'Horror', subtitle: 'A strange little nightmare', cover: 'parenting' },
   { id: 'bendy', title: 'Bendy and the Ink Machine', category: 'Adventure', subtitle: 'The studio is waiting', cover: 'ink' },
   { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Licensed browser version on Poki', cover: 'retro', externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
+  { id: 'basketball-stars', title: 'Basketball Stars', category: 'Sports', subtitle: 'Included HTML launcher · internet required', cover: 'basketball', builtInUrl: '/games/basketball_stars.html' },
 ];
 const prefKey = 'nightshift.preferences.v1';
 const sourceKey = 'nightshift.game-sources.v1';
@@ -305,6 +306,7 @@ function App() {
   });
   const windowOpen = (id: AppId) => windows[id].open && !windows[id].minimized;
   const currentGameSource = game ? sourceFor(game) : undefined;
+  const currentGameUrl = currentGameSource?.fileUrl || currentGameSource?.url || game?.builtInUrl;
   const openExternalGame = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
   return (
@@ -389,11 +391,11 @@ function App() {
           </div>
         </div>
         <div className="game-viewport">
-          {currentGameSource?.url || currentGameSource?.fileUrl ? <>
+          {currentGameUrl ? <>
             <iframe
               className="game-frame"
               title={`${game.title} configured browser game`}
-              src={currentGameSource.fileUrl || currentGameSource.url}
+              src={currentGameUrl}
               sandbox="allow-scripts allow-forms allow-pointer-lock allow-downloads"
               allow={preferences.audioDefault ? 'fullscreen; autoplay; gamepad' : 'fullscreen; gamepad'}
               allowFullScreen
@@ -402,7 +404,7 @@ function App() {
             />
             {currentGameSource.url && <a className="icon-button game-source-link" href={currentGameSource.url} target="_blank" rel="noopener noreferrer" data-testid="open-configured-source">Open source <ExternalLink size={12} /></a>}
             <div className="game-toolbar-title" style={{ top: 40, zIndex: 2, left: 'auto', right: 12, transform: 'none', pointerEvents: 'none', fontSize: 9 }}>
-              {currentGameSource.fileName ? `LOCAL FILE · ${currentGameSource.fileName}` : 'USER-CONFIGURED SOURCE · EMBEDDING MAY BE RESTRICTED'}
+              {currentGameSource?.fileName ? `LOCAL FILE · ${currentGameSource.fileName}` : game.builtInUrl ? 'INCLUDED GAME WRAPPER · EXTERNAL ASSETS REQUIRED' : 'USER-CONFIGURED SOURCE · EMBEDDING MAY BE RESTRICTED'}
             </div>
           </> : game.externalLaunchUrl ? <div className="game-unavailable">
             <div className="unavailable-symbol"><Gamepad2 size={24} /></div>
@@ -470,7 +472,7 @@ function GameCard({ game, source, onPlay, compact = false }: { game: Game; sourc
       {game.cover === 'ink' && <span className="cover-orbit" />}
       <div><span className="cover-kicker">{game.category} · NIGHTSHIFT LIBRARY</span><div className="cover-name">{game.title}</div></div>
     </div>
-    <div className="game-info"><div><h3>{game.title}</h3><p>{source?.url || source?.fileUrl ? 'Source configured' : game.subtitle}</p></div>
+    <div className="game-info"><div><h3>{game.title}</h3><p>{source?.url || source?.fileUrl ? 'Source configured' : game.builtInUrl ? 'Included HTML game · internet required' : game.subtitle}</p></div>
       <button className="play-button" onClick={onPlay} data-testid={`play-${game.id}`}>PLAY</button>
     </div>
     {compact && game.cover === 'custom' && null}
