@@ -16,7 +16,6 @@
         border: 0;
         overflow: hidden;
       }
-      .gm4html5_div_class { margin: 0; padding: 0; border: 0; }
       canvas {
         image-rendering: optimizeSpeed;
         -webkit-interpolation-mode: nearest-neighbor;
@@ -29,6 +28,11 @@
       :-webkit-full-screen {
         width: 100%;
         height: 100%;
+      }
+      .gm4html5_div_class {
+        margin: 0;
+        padding: 0;
+        border: 0;
       }
       .gm4html5_login {
         padding: 20px;
@@ -46,15 +50,24 @@
   </head>
   <body>
     <div class="gm4html5_div_class" id="gm4html5_div_id">
-      <img src="html5game/splash.png" id="GM4HTML5_loadingscreen" alt="Retro Bowl loading screen" style="display:none">
+      <img
+        src="html5game/splash.png"
+        id="GM4HTML5_loadingscreen"
+        alt="Retro Bowl loading screen"
+        style="display: none;"
+      >
       <canvas id="canvas" width="960" height="540">
         <p>Your browser does not support HTML5 canvas.</p>
       </canvas>
     </div>
     <script src="html5game/RetroBowl.js?WAEAC=1633155445"></script>
     <script>
-      window.addEventListener('load', function () {
-        if (typeof GameMaker_Init === 'function') GameMaker_Init();
+      window.addEventListener("load", function () {
+        if (typeof window.GameMaker_Init === "function") {
+          window.GameMaker_Init();
+        } else {
+          console.error("Retro Bowl failed to load: GameMaker_Init is unavailable.");
+        }
       });
     </script>
   </body>
