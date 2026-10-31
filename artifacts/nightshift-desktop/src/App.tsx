@@ -36,8 +36,8 @@ const defaultPreferences: Preferences = {
 const defaultGames: Game[] = [
   { id: 'bad-parenting', title: 'Bad Parenting', category: 'Horror', subtitle: 'A strange little nightmare', cover: 'parenting' },
   { id: 'bendy', title: 'Bendy and the Ink Machine', category: 'Adventure', subtitle: 'The studio is waiting', cover: 'ink' },
-  { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Embedded HTML game wrapper · external assets required', cover: 'retro', builtInUrl: `${import.meta.env.BASE_URL}games/retro_bowl.html`, externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
-  { id: 'basketball-stars', title: 'Basketball Stars', category: 'Sports', subtitle: 'Included HTML launcher · internet required', cover: 'basketball', builtInUrl: `${import.meta.env.BASE_URL}games/basketball_stars.html` },
+  { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Embedded HTML game wrapper · external assets required', cover: 'retro', builtInUrl: 'https://cdn.jsdelivr.net/gh/christianzeigler101013-jpg/NexusOS@394e51e9fe462ec1f46e8b5fb7f866cb8609bf5f/artifacts/nightshift-desktop/public/games/retro_bowl.html', externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
+  { id: 'basketball-stars', title: 'Basketball Stars', category: 'Sports', subtitle: 'Included HTML launcher · internet required', cover: 'basketball', builtInUrl: 'https://cdn.jsdelivr.net/gh/christianzeigler101013-jpg/NexusOS@394e51e9fe462ec1f46e8b5fb7f866cb8609bf5f/artifacts/nightshift-desktop/public/games/basketball_stars.html' },
 ];
 const prefKey = 'nightshift.preferences.v1';
 const sourceKey = 'nightshift.game-sources.v1';
@@ -307,6 +307,21 @@ function App() {
   const windowOpen = (id: AppId) => windows[id].open && !windows[id].minimized;
   const currentGameSource = game ? sourceFor(game) : undefined;
   const currentGameUrl = currentGameSource?.fileUrl || currentGameSource?.url || game?.builtInUrl;
+  const gameFrameSandbox = (() => {
+    const restricted = 'allow-scripts allow-forms allow-pointer-lock allow-downloads';
+    if (!currentGameUrl) return restricted;
+    try {
+      const frameOrigin = new URL(currentGameUrl, window.location.href).origin;
+      // Built-in games are served from jsDelivr, a separate origin. Retain that
+      // origin so game storage works without granting the embedded page access
+      // to the NexusOS parent page.
+      return frameOrigin !== window.location.origin
+        ? `${restricted} allow-same-origin allow-modals allow-popups`
+        : restricted;
+    } catch {
+      return restricted;
+    }
+  })();
   const openExternalGame = (url: string) => window.open(url, '_blank', 'noopener,noreferrer');
 
   return (
@@ -396,13 +411,15 @@ function App() {
               className="game-frame"
               title={`${game.title} configured browser game`}
               src={currentGameUrl}
-              sandbox="allow-scripts allow-forms allow-pointer-lock allow-downloads"
-              allow={preferences.audioDefault ? 'fullscreen; autoplay; gamepad' : 'fullscreen; gamepad'}
+              sandbox={gameFrameSandbox}
+              allow={preferences.audioDefault ? 'fullscreen; autoplay; gamepad; encrypted-media; picture-in-picture' : 'fullscreen; gamepad; encrypted-media; picture-in-picture'}
               allowFullScreen
+              onError={() => showToast(`${game.title} could not load. Try opening the game page directly or check the external game host.`)}
               style={{ objectFit: preferences.stretch ? 'fill' : 'contain' }}
               data-testid="configured-game-frame"
             />
-            {currentGameSource.url && <a className="icon-button game-source-link" href={currentGameSource.url} target="_blank" rel="noopener noreferrer" data-testid="open-configured-source">Open source <ExternalLink size={12} /></a>}
+            {currentGameSource?.url && <a className="icon-button game-source-link" href={currentGameSource.url} target="_blank" rel="noopener noreferrer" data-testid="open-configured-source">Open source <ExternalLink size={12} /></a>}
+            {game.builtInUrl && <a className="icon-button game-source-link" href={game.builtInUrl} target="_blank" rel="noopener noreferrer" data-testid="open-game-page">Open game page <ExternalLink size={12} /></a>}
             <div className="game-toolbar-title" style={{ top: 40, zIndex: 2, left: 'auto', right: 12, transform: 'none', pointerEvents: 'none', fontSize: 9 }}>
               {currentGameSource?.fileName ? `LOCAL FILE · ${currentGameSource.fileName}` : game.builtInUrl ? 'INCLUDED GAME WRAPPER · EXTERNAL ASSETS REQUIRED' : 'USER-CONFIGURED SOURCE · EMBEDDING MAY BE RESTRICTED'}
             </div>
