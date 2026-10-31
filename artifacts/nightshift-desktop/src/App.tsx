@@ -36,7 +36,7 @@ const defaultPreferences: Preferences = {
 const defaultGames: Game[] = [
   { id: 'bad-parenting', title: 'Bad Parenting', category: 'Horror', subtitle: 'A strange little nightmare', cover: 'parenting' },
   { id: 'bendy', title: 'Bendy and the Ink Machine', category: 'Adventure', subtitle: 'The studio is waiting', cover: 'ink' },
-  { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Embedded HTML game wrapper · external assets required', cover: 'retro', builtInUrl: 'https://cdn.jsdelivr.net/gh/christianzeigler101013-jpg/NexusOS@394e51e9fe462ec1f46e8b5fb7f866cb8609bf5f/artifacts/nightshift-desktop/public/games/retro_bowl.html', externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
+  { id: 'retro-bowl', title: 'Retro Bowl', category: 'Sports', subtitle: 'Embedded HTML game wrapper · external assets required', cover: 'retro', builtInUrl: 'https://cdn.jsdelivr.net/gh/christianzeigler101013-jpg/NexusOS@4e6795c47bf70f3cab031b4b3faeb66a8b9bf2f6/artifacts/nightshift-desktop/public/games/retro_bowl.html', externalLaunchUrl: 'https://poki.com/en/g/retro-bowl' },
   { id: 'basketball-stars', title: 'Basketball Stars', category: 'Sports', subtitle: 'Included HTML launcher · internet required', cover: 'basketball', builtInUrl: 'https://cdn.jsdelivr.net/gh/christianzeigler101013-jpg/NexusOS@394e51e9fe462ec1f46e8b5fb7f866cb8609bf5f/artifacts/nightshift-desktop/public/games/basketball_stars.html' },
 ];
 const prefKey = 'nightshift.preferences.v1';
